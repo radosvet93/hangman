@@ -1,11 +1,13 @@
 import React from "react";
+import { letters } from "../constants";
+import Button from "./Button";
 
-const Keyboard = () => {
+const Keyboard = ({ letterPressed }) => {
   return (
     <div className="Keyboard">
-      <h1>Hangman</h1>
-      <p>Keyboard goes here</p>
-      <p>Pass the selected key up to the Game component: onPressed</p>
+      {letters.map((letter) => (
+        <Button key={letter} letter={letter} letterPressed={letterPressed} />
+      ))}
     </div>
   );
 };
