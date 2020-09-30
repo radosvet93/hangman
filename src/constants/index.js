@@ -1,2 +1,3 @@
 import { letters } from "./letters";
-export { letters };
+import { words } from "./words";
+export { letters, words };
