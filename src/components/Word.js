@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 const convertStrFill = (word, fill) => {
   const fullArr = word.split("").fill(fill);
@@ -11,13 +11,14 @@ const Word = ({ word, letter }) => {
   const [gameWord, setGameWord] = useState("");
   const [error, setError] = useState("");
   const [errorCount, setErrorCount] = useState(0);
-  useEffect(() => {
-    setGameWord(convertStrFill(word, "_"));
-  }, []);
+
+  // Set the game word to be a string with underscores
+  useEffect(() => setGameWord(convertStrFill(word, "_")), []);
 
   //TODO: use more react stuff like state and effects, helpers...
 
   let newStr = gameWord.split("");
+
   useEffect(() => {
     letter &&
       word.split("").forEach((element, index) => {
@@ -35,7 +36,7 @@ const Word = ({ word, letter }) => {
     if (errorCount >= 4) {
       setError("You are a loser");
     }
-  }, [letter, word, gameWord]);
+  }, [letter]);
 
   return (
     <>

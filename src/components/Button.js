@@ -1,10 +1,10 @@
 import React from "react";
 
-const Button = ({ letter, letterPressed, disabledLetters }) => {
-  console.log(disabledLetters);
+import { Button as ButtonClass } from "./Button.module.scss";
 
+const Button = ({ letter, letterPressed }) => {
   return (
-    <button onClick={() => letterPressed(letter)} className="Button">
+    <button onClick={() => letterPressed(letter)} className={ButtonClass}>
       {letter.toUpperCase()}
     </button>
   );

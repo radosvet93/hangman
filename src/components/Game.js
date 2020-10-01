@@ -3,11 +3,12 @@ import Keyboard from "./Keyboard";
 import Word from "./Word";
 import { getRandomWord } from "../helpers/getRandomWord";
 
+import { Game as GameClass } from "./Game.module.scss";
+
 const word = getRandomWord();
 
 const Game = () => {
   const [letter, setLetter] = useState();
-  const [disabledLetters, setDisabledLetters] = useState([]);
 
   // TODO: disabled the keyboard buttons, when pressed
   // TODO: make a way to restart game when reaching the error count
@@ -23,17 +24,12 @@ const Game = () => {
   // TODO: add i18n - English, Bulgarian - choose language
   // TODO: get words from dictionary
 
-  useEffect(() => {
-    setDisabledLetters([...disabledLetters, letter]);
-  }, [letter]);
-
   return (
-    <div className="Game">
+    <div className={GameClass}>
       <h1>Hangman</h1>
       <p>The illustration of the hangman</p>
-      <p>Letter pressed: {letter}</p>
       <Word word={word} letter={letter} />
-      <Keyboard letterPressed={setLetter} disabledLetters={disabledLetters} />
+      <Keyboard letterPressed={setLetter} />
     </div>
   );
 };
