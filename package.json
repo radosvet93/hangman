@@ -2,7 +2,7 @@
   "name": "hangman",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://mr-hangman.web.app/hangman",
+  "homepage": "https://mr-hangman.web.app",
   "dependencies": {
     "@rebass/preset": "^4.0.5",
     "@testing-library/jest-dom": "^4.2.4",
