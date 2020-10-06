@@ -6,6 +6,8 @@ script:
   - CI=false npm run build
 install:
   - npm install -g firebase-tools
+after_success:
+  - firebase deploy --token $FIREBASE_TOKEN
 deploy:
   provider: firebase
   token:
