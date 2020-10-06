@@ -6,3 +6,7 @@ script:
   - CI=false npm run build
 install:
   - npm install -g firebase-tools
+deploy:
+  provider: firebase
+  token:
+    secure: "1//03foPwilrP5gWCgYIARAAGAMSNwF-L9IrjiriG0cI3x2ItJIQoZZACmmA0pohd9EFUmcTfU2k8-OnQ4IqVehzHk4a_EBzfjhe544"
