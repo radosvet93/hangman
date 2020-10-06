@@ -6,9 +6,3 @@ script:
   - CI=false npm run build
 install:
   - npm install -g firebase-tools
-after_success:
-  - firebase deploy --token $FIREBASE_TOKEN
-deploy:
-  provider: firebase
-  token:
-    secure: "qQBC2oaEuH4LKcgvoRIvItxFlpI/95bhfvwlFSxqk/wTH+8qpKXgGhWwLmslU8D/VyJ45vdEviRgma63ELicOyTEY7t2knVsjmRZiTcFWjAeO0pURczMjNNJhSxuVQ5AfjDfizzjml7nzkkLUqhhkC2gaVKGymrFxWhkTrfAUmSZIStruHQQhgvN3I17inCMg+mA+i8PGBs2d6kJdRC/2uTJreJK5XhZu1WNJpGEr1C4caURG2eAwm/h9v8x3SBPMl6zDV2ZjuZDVA0kBClK71m1zlZN/P+YvH7a56nCNE7LjC469Rw5CV0IfCDIzLPVZAU5LUTLI/7KDJuwEcThcSJVOOthOzixPrQ+trW+YsbL0Ic8iBLw7nfiTBK0RKG/HwFG/SSm/cZe09dtw9Rd3iVp2nlg1XDhFjX7+7HbltHYlcz5UTheDfWMbo6jKJoQu2iyn4BK5MKu2usiJtikPbPE+U3a4BvbcoN/0521GkHiMCbeLm4peNMcB6E9QrPPo2JWxpw86tlKuuYLuHzesNWzgpUnTqnbV8Z6HFEfwBYekcgET7WZl9XNYvdRzB/Izg5yYEaHrwp0HyCPaepZXMqkNJZz7TMkqtGxWHhKdD4RH1aKpZjU3PTM/+Y/NE0kCiFjG3nwx3FHy0l0PuNJOsOFalZMQf4aR3IbMOow4MM="
