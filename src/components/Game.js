@@ -20,6 +20,7 @@ const randomWord = randomWords();
 client.define(randomWord).then(({ definitions, word }) => {
   console.log("result", definitions);
   console.log("word", word);
+  console.log("hello");
 });
 
 const Game = () => {
