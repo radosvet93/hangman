@@ -1,14 +1,17 @@
 import React from "react";
+import { Button, Grid } from "semantic-ui-react";
 import { letters } from "../constants";
-import Button from "./Button";
+import Letter from "./Letter";
 
 const Keyboard = ({ letterPressed }) => {
   return (
-    <div className="Keyboard">
-      {letters.map((letter) => (
-        <Button key={letter} letter={letter} letterPressed={letterPressed} />
-      ))}
-    </div>
+    <>
+      <Button.Group fluid style={{ "flex-wrap": "wrap" }}>
+        {letters.map((letter) => (
+          <Letter key={letter} letter={letter} letterPressed={letterPressed} />
+        ))}
+      </Button.Group>
+    </>
   );
 };
 

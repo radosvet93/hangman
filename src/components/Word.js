@@ -1,52 +1,45 @@
 import React, { useState, useEffect, useCallback } from "react";
-
-const convertStrFill = (word, fill) => {
-  const fullArr = word.split("").fill(fill);
-
-  fullArr[0] = word[0].toUpperCase();
-  return fullArr.join("");
-};
+import { useRecoilState } from "recoil";
+import { maxErrors, STATUSES } from "../constants";
+import { checkLetterInWord } from "../helpers/checkLetterInWord";
+import { errorsState, statusState, gameWordState } from "../recoil/atoms";
 
 const Word = ({ word, letter }) => {
-  const [gameWord, setGameWord] = useState("");
-  const [error, setError] = useState("");
-  const [errorCount, setErrorCount] = useState(0);
-
-  // Set the game word to be a string with underscores
-  useEffect(() => setGameWord(convertStrFill(word, "_")), []);
-
-  //TODO: use more react stuff like state and effects, helpers...
-
-  let newStr = gameWord.split("");
+  const [gameWord, setGameWord] = useRecoilState(gameWordState);
+  const [errors, setErrors] = useRecoilState(errorsState);
+  const [status, setStatus] = useRecoilState(statusState);
 
   useEffect(() => {
+    const newStr = gameWord.split("");
     letter &&
-      word.split("").forEach((element, index) => {
-        if (letter.toLowerCase() === element) {
+      word.split("").forEach((character, index) => {
+        if (letter.toLowerCase() === character.toLowerCase()) {
           newStr[index] = letter;
-          setError("");
           setGameWord(newStr.join(""));
         }
       });
 
     if (letter && !word.includes(letter.toLowerCase())) {
-      setErrorCount(errorCount + 1);
-      setError(`Letter ${letter} does not exist in this word`);
+      setErrors(errors + 1);
     }
-    if (errorCount >= 4) {
-      setError("You are a loser");
+  }, [letter, gameWord]);
+
+  useEffect(() => {
+    if (letter && word.toUpperCase() === gameWord.toUpperCase()) {
+      setStatus(STATUSES.WIN);
     }
-  }, [letter]);
+  }, [setStatus, word, letter, gameWord]);
+  useEffect(() => {
+    if (status !== STATUSES.WIN && errors === maxErrors) {
+      setStatus(STATUSES.LOSE);
+      setGameWord(word.toUpperCase());
+    }
+  }, [errors, status, setStatus, word, setGameWord]);
 
   return (
-    <>
-      {/* <h2>Word: {word}</h2> */}
-      <p>Letter: {letter}</p>
-      <p>Error: {error}</p>
-      <p>Error count: {errorCount}</p>
-      <p>Word length: {word.length}</p>
-      <p>gameWord: {gameWord}</p>
-    </>
+    <p>
+      The word is {word.length} letters: {gameWord}
+    </p>
   );
 };
 

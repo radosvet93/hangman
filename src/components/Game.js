@@ -1,36 +1,75 @@
 import React, { useState, useEffect } from "react";
+import { useRecoilState } from "recoil";
 import Keyboard from "./Keyboard";
 import Word from "./Word";
+import Hint from "./Hint";
+import Drawing from "./Drawing";
+import Status from "./Status";
+import Speech from "./Speech";
 import { getRandomWord } from "../helpers/getRandomWord";
+import { convertStrFill } from "../helpers/convertStrFill";
+import { Grid, Header, Segment, Icon } from "semantic-ui-react";
+import { errorsState, gameWordState, statusState, styleState } from "../recoil/atoms";
+import { STATUSES } from "../constants";
+import Owlbot from "owlbot-js";
+const randomWords = require("random-words");
+const client = Owlbot(process.env.REACT_APP_OWLBOT_TOKEN);
 
-import { Game as GameClass } from "./Game.module.scss";
+const randomWord = randomWords();
 
-const word = getRandomWord();
+client.define(randomWord).then(({ definitions, word }) => {
+  console.log("result", definitions);
+  console.log("word", word);
+});
 
 const Game = () => {
+  const { randomWord, randomHint, randomPartOfSpeech } = getRandomWord();
+  const [style] = useRecoilState(styleState);
+  const [errors, setErrors] = useRecoilState(errorsState);
+  const [status, setStatus] = useRecoilState(statusState);
   const [letter, setLetter] = useState();
+  const [word, setWord] = useState(randomWord);
+  const [hint, setHint] = useState(randomHint);
+  const [partOfSpeech, setPartOfSpeech] = useState(randomPartOfSpeech);
+  const [gameWord, setGameWord] = useRecoilState(gameWordState);
 
-  // TODO: disabled the keyboard buttons, when pressed
-  // TODO: make a way to restart game when reaching the error count
   // TODO: refactor
-  // TODO: make more helper functions
   // TODO: do better logic!!!
-  // TODO: make a new component to congrats when word is guest
-  // TODO: think about using recoil for state management
   // TODO: think about styling
   // TODO: think about testing
   // TODO: think about animations and draw the parts of the hangman body
-  // TODO: add tips for the word
   // TODO: add i18n - English, Bulgarian - choose language
-  // TODO: get words from dictionary
+
+  // When first render, create the game word
+  useEffect(() => {
+    setGameWord(convertStrFill(word, "_"));
+  }, []);
+
+  useEffect(() => {
+    // Restart game
+    if (status === STATUSES.RESTART) {
+      const newWord = getRandomWord();
+      setStatus("");
+      setErrors(0);
+      setWord(newWord.randomWord);
+      setGameWord(convertStrFill(newWord.randomWord, "_"));
+      setHint(newWord.randomHint);
+      setPartOfSpeech(newWord.partOfSpeech);
+    }
+  }, [status, setStatus, setErrors, setGameWord]);
 
   return (
-    <div className={GameClass}>
-      <h1>Hangman</h1>
-      <p>The illustration of the hangman</p>
+    <Segment>
+      <Header as="h1" textAlign="center">
+        <Header.Content>Hangman</Header.Content>
+      </Header>
+      <Drawing errors={errors} />
       <Word word={word} letter={letter} />
+      <Hint hint={hint} />
+      <Speech partOfSpeech={partOfSpeech} />
       <Keyboard letterPressed={setLetter} />
-    </div>
+      <Status word={word} errors={errors} letter={letter} />
+    </Segment>
   );
 };
 
