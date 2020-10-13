@@ -20,6 +20,11 @@ export const disabledKeyboardState = atom({
   default: false,
 });
 
+export const wordState = atom({
+  key: "word",
+  default: "",
+});
+
 export const gameWordState = atom({
   key: "gameWord",
   default: "",

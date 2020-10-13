@@ -1,39 +1,36 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useRecoilState } from "recoil";
 import Keyboard from "./Keyboard";
 import Word from "./Word";
-import Hint from "./Hint";
 import Drawing from "./Drawing";
 import Status from "./Status";
-import Speech from "./Speech";
+import Def from "./Def";
 import { getRandomWord } from "../helpers/getRandomWord";
 import { convertStrFill } from "../helpers/convertStrFill";
-import { Grid, Header, Segment, Icon } from "semantic-ui-react";
+import { Header, Segment } from "semantic-ui-react";
 import { errorsState, gameWordState, statusState, styleState } from "../recoil/atoms";
 import { STATUSES } from "../constants";
-import Owlbot from "owlbot-js";
-const randomWords = require("random-words");
-const client = Owlbot(process.env.REACT_APP_OWLBOT_TOKEN);
-
-const randomWord = randomWords();
-
-client.define(randomWord).then(({ definitions, word }) => {
-  console.log("result", definitions);
-  console.log("word", word);
-  console.log("hello");
-});
 
 const Game = () => {
-  const { randomWord, randomHint, randomPartOfSpeech } = getRandomWord();
+  const { randomDefinitions, randomWord } = getRandomWord();
   const [style] = useRecoilState(styleState);
   const [errors, setErrors] = useRecoilState(errorsState);
   const [status, setStatus] = useRecoilState(statusState);
   const [letter, setLetter] = useState();
   const [word, setWord] = useState(randomWord);
-  const [hint, setHint] = useState(randomHint);
-  const [partOfSpeech, setPartOfSpeech] = useState(randomPartOfSpeech);
+  const [definitions, setDefinitions] = useState([]);
   const [gameWord, setGameWord] = useRecoilState(gameWordState);
 
+  // When first render, create the game word
+  useEffect(() => {
+    setErrors(0);
+    setStatus("");
+    setWord(randomWord);
+    setGameWord(convertStrFill(randomWord, "_"));
+    randomDefinitions.then(({ definitions }) => {
+      setDefinitions(definitions);
+    });
+  }, []);
   // TODO: refactor
   // TODO: do better logic!!!
   // TODO: think about styling
@@ -41,23 +38,19 @@ const Game = () => {
   // TODO: think about animations and draw the parts of the hangman body
   // TODO: add i18n - English, Bulgarian - choose language
 
-  // When first render, create the game word
   useEffect(() => {
-    setGameWord(convertStrFill(word, "_"));
-  }, []);
+    if (letter && status === STATUSES.RESTART) {
+      const { randomDefinitions, randomWord } = getRandomWord();
 
-  useEffect(() => {
-    // Restart game
-    if (status === STATUSES.RESTART) {
-      const newWord = getRandomWord();
       setStatus("");
       setErrors(0);
-      setWord(newWord.randomWord);
-      setGameWord(convertStrFill(newWord.randomWord, "_"));
-      setHint(newWord.randomHint);
-      setPartOfSpeech(newWord.partOfSpeech);
+      setWord(randomWord);
+      setGameWord(convertStrFill(randomWord, "_"));
+      randomDefinitions.then(({ definitions }) => {
+        setDefinitions(definitions);
+      });
     }
-  }, [status, setStatus, setErrors, setGameWord]);
+  }, [status, setWord, setErrors, setGameWord, setStatus]);
 
   return (
     <Segment>
@@ -66,10 +59,9 @@ const Game = () => {
       </Header>
       <Drawing errors={errors} />
       <Word word={word} letter={letter} />
-      <Hint hint={hint} />
-      <Speech partOfSpeech={partOfSpeech} />
       <Keyboard letterPressed={setLetter} />
-      <Status word={word} errors={errors} letter={letter} />
+      <Status errors={errors} letter={letter} word={word} />
+      <Def definitions={definitions} />
     </Segment>
   );
 };

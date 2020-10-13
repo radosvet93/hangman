@@ -8,13 +8,8 @@ const Letter = ({ letter, letterPressed }) => {
   const [disabled, setDisabled] = useState(false);
   const [status] = useRecoilState(statusState);
 
-  // TODO: move all strings to constants
   useEffect(() => {
-    if (status === STATUSES.LOSE || status === STATUSES.WIN) {
-      setDisabled(true);
-    } else if (status === STATUSES.RESTART) {
-      setDisabled(false);
-    }
+    status === STATUSES.LOSE || status === STATUSES.WIN ? setDisabled(true) : setDisabled(false);
   }, [status]);
   return (
     <Button
