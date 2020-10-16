@@ -1,0 +1,46 @@
+@font-face {
+  font-family: "IndieFlower";
+  src: url(./fonts/IndieFlower-Regular.ttf);
+}
+
+/* @import url("https://fonts.googleapis.com/css?family=Montserrat&display=swap"); */
+
+body {
+  background: #f3f3f3;
+}
+
+body #root {
+  font-family: "IndieFlower";
+}
+
+body #root h1,
+body #root h2,
+body #root h3,
+body #root h4,
+body #root h5,
+body #root h6,
+body #root p,
+body #root span {
+  font-family: "IndieFlower";
+  color: white;
+}
+
+body #root h1 {
+  font-size: 3rem;
+}
+body #root h2 {
+  font-size: 2.75rem;
+}
+body #root h3 {
+  font-size: 2.5rem;
+}
+
+body #root p,
+body #root span {
+  font-size: 1.5rem;
+}
+
+body #root .gameWord {
+  padding: 3px 10px;
+  letter-spacing: 1rem;
+}

@@ -1,11 +1,13 @@
 import React, { useEffect } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { Segment } from "semantic-ui-react";
 import { replaceChar } from "../helpers/replaceChar";
-import { errorsState, statusState, gameWordState } from "../recoil/atoms";
+import { errorsState, gameWordState, styleState } from "../recoil/atoms";
 
 const Word = ({ letter, word }) => {
   const [gameWord, setGameWord] = useRecoilState(gameWordState);
   const [errors, setErrors] = useRecoilState(errorsState);
+  const style = useRecoilValue(styleState);
   const regex = new RegExp(letter, "i");
 
   useEffect(() => {
@@ -19,12 +21,9 @@ const Word = ({ letter, word }) => {
   }, [letter]);
 
   return (
-    <>
-      <h2>Word is: {word}</h2>
-      <p>
-        The word is {word.length} letters: {gameWord}
-      </p>
-    </>
+    <Segment inverted style={{ background: style.color.primary }}>
+      <span className="gameWord">{gameWord}</span>
+    </Segment>
   );
 };
 

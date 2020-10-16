@@ -58,14 +58,24 @@ export const styleState = atom({
       margin: "1.25rem",
     },
     line: {
-      stroke: "black",
+      stroke: "white",
       strokeWidth: "4px",
       strokeLinecap: "round",
     },
     circle: {
-      stroke: "black",
+      stroke: "white",
       strokeWidth: "4px",
       fill: "transparent",
+    },
+    color: {
+      primary: "#363139",
+    },
+    bg: {
+      background: "linear-gradient(60deg, #4352b1, #3f9744)",
+    },
+    button: {
+      background: "#363139",
+      color: "white",
     },
   },
 });

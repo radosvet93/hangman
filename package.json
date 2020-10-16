@@ -13,6 +13,7 @@
     "random-words": "^1.1.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-lottie": "^1.2.3",
     "react-scripts": "3.4.3",
     "rebass": "^4.0.7",
     "recoil": "0.0.13",

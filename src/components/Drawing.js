@@ -1,10 +1,10 @@
 import React from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 
 import { styleState } from "../recoil/atoms";
 
 const Drawing = ({ errors = 0 }) => {
-  const [style] = useRecoilState(styleState);
+  const style = useRecoilValue(styleState);
 
   return (
     <svg width="100%" height="200" style={style.marginSM} xmlns="http://www.w3.org/2000/svg">
