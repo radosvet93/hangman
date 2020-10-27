@@ -17,7 +17,14 @@ const Def = ({ definitions }) => {
             <Header style={{ background: style.color.primary, border: "none" }} as="h3" attached="top">
               Definitions
             </Header>
-            {defs.map((def) => def && <Segment attached>{def}</Segment>)}
+            {defs.map(
+              (def) =>
+                def && (
+                  <Segment key={def} attached>
+                    {def}
+                  </Segment>
+                )
+            )}
           </Grid.Column>
         )}
         {examples.some((example) => example) && (
@@ -25,7 +32,14 @@ const Def = ({ definitions }) => {
             <Header style={{ background: style.color.primary, border: "none" }} as="h3" attached="top">
               Examples
             </Header>
-            {examples.map((example) => example && <Segment attached>{example}</Segment>)}
+            {examples.map(
+              (example) =>
+                example && (
+                  <Segment key={example} attached>
+                    {example}
+                  </Segment>
+                )
+            )}
           </Grid.Column>
         )}
         {images.some((image) => image) && (
@@ -35,7 +49,7 @@ const Def = ({ definitions }) => {
             </Header>
             <Segment attached>
               {images.map((image) => (
-                <Image src={image} size="medium" />
+                <Image key={image} src={image} size="medium" />
               ))}
             </Segment>
           </Grid.Column>
