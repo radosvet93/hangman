@@ -1,5 +1,5 @@
 {
-  "name": "hangman",
+  "name": "mr-hangman",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
