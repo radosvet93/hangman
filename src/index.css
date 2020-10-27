@@ -2,15 +2,24 @@
   font-family: "IndieFlower";
   src: url(./fonts/IndieFlower-Regular.ttf);
 }
+@font-face {
+  font-family: "Chilanka";
+  src: url(./fonts/Chilanka-Regular.ttf);
+}
+@font-face {
+  font-family: "Nunito";
+  src: url(./fonts/Nunito-Regular.ttf);
+}
 
 /* @import url("https://fonts.googleapis.com/css?family=Montserrat&display=swap"); */
 
 body {
-  background: #f3f3f3;
+  background: #dcdcdc;
 }
 
 body #root {
-  font-family: "IndieFlower";
+  font-family: "Nunito";
+  font-size: 1rem;
 }
 
 body #root h1,
@@ -20,8 +29,9 @@ body #root h4,
 body #root h5,
 body #root h6,
 body #root p,
-body #root span {
-  font-family: "IndieFlower";
+body #root span,
+body #root .header {
+  font-family: "Chilanka";
   color: white;
 }
 
@@ -32,7 +42,7 @@ body #root h2 {
   font-size: 2.75rem;
 }
 body #root h3 {
-  font-size: 2.5rem;
+  font-size: 2.1rem;
 }
 
 body #root p,
@@ -40,7 +50,21 @@ body #root span {
   font-size: 1.5rem;
 }
 
+body #root .segment {
+  font-size: 1.2rem;
+}
+
 body #root .gameWord {
   padding: 3px 10px;
   letter-spacing: 1rem;
+  font-family: "IndieFlower";
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+.ui.buttons .button:first-child,
+.ui.buttons .button:last-child {
+  border-radius: 0;
 }
