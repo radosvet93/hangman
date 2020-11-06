@@ -1,14 +1,14 @@
-import React from "react";
-import { Button, Grid } from "semantic-ui-react";
+import React, { useState, useEffect } from "react";
+import { Button } from "semantic-ui-react";
 import { letters } from "../constants";
 import Letter from "./Letter";
 
-const Keyboard = ({ letterPressed }) => {
+const Keyboard = ({ letterPressed, word }) => {
   return (
     <>
-      <Button.Group fluid style={{ "flex-wrap": "wrap" }}>
+      <Button.Group fluid style={{ flexWrap: "wrap" }}>
         {letters.map((letter) => (
-          <Letter key={letter} letter={letter} letterPressed={letterPressed} />
+          <Letter key={letter} letter={letter} letterPressed={letterPressed} word={word} />
         ))}
       </Button.Group>
     </>

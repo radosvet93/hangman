@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import Keyboard from "./Keyboard";
 import Word from "./Word";
@@ -12,24 +12,32 @@ import { errorsState, gameWordState, statusState, styleState } from "../recoil/a
 import { STATUSES } from "../constants";
 
 const Game = () => {
-  const { randomDefinitions, randomWord } = getRandomWord();
   const style = useRecoilValue(styleState);
   const [errors, setErrors] = useRecoilState(errorsState);
   const [status, setStatus] = useRecoilState(statusState);
   const [letter, setLetter] = useState();
-  const [word, setWord] = useState(randomWord);
+  const [word, setWord] = useState("");
   const [definitions, setDefinitions] = useState([]);
   const setGameWord = useSetRecoilState(gameWordState);
 
-  // When first render, create the game word
-  useEffect(() => {
-    setErrors(0);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const gameStart = useCallback(() => {
+    const { randomDefinitions, randomWord } = getRandomWord();
+
+    setDefinitions([]);
     setStatus("");
+    setErrors(0);
     setWord(randomWord);
     setGameWord(convertStrFill(randomWord, "_"));
     randomDefinitions.then(({ definitions }) => {
       setDefinitions(definitions);
     });
+  });
+
+  // When first render, create the game word
+  useEffect(() => {
+    gameStart();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   // TODO: refactor
   // TODO: do better logic!!!
@@ -39,37 +47,29 @@ const Game = () => {
   // TODO: add i18n - English, Bulgarian - choose language
 
   useEffect(() => {
-    if (letter && status === STATUSES.RESTART) {
-      const { randomDefinitions, randomWord } = getRandomWord();
-
-      setDefinitions([]);
-      setStatus("");
-      setErrors(0);
-      setWord(randomWord);
-      setGameWord(convertStrFill(randomWord, "_"));
-      randomDefinitions.then(({ definitions }) => {
-        setDefinitions(definitions);
-      });
+    if (status === STATUSES.RESTART) {
+      gameStart();
     }
-  }, [status, setWord, setErrors, setGameWord, setStatus]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status]);
 
   return (
     <Segment raised padded style={{ ...style.bg, marginTop: "1.5rem", marginBottom: "1.5rem" }}>
       <Header as="h1" textAlign="center">
-        <Header.Content>Hangman</Header.Content>
+        <Header.Content>Mr. Hangman</Header.Content>
       </Header>
-      <Grid columns="equal">
-        <Grid.Column>
+      <Grid>
+        <Grid.Column width={6}>
           <Drawing errors={errors} />
         </Grid.Column>
-        <Grid.Column>
+        <Grid.Column width={10}>
           <Word word={word} letter={letter} />
         </Grid.Column>
       </Grid>
       <Grid>
         <Grid.Row>
           <Grid.Column>
-            <Keyboard letterPressed={setLetter} />
+            <Keyboard word={word} letterPressed={setLetter} />
           </Grid.Column>
         </Grid.Row>
         <Grid.Row>
