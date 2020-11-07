@@ -7,18 +7,35 @@ import Status from "./Status";
 import Def from "./Def";
 import { getRandomWord } from "../helpers/getRandomWord";
 import { convertStrFill } from "../helpers/convertStrFill";
-import { Header, Segment, Grid } from "semantic-ui-react";
+import { Header, Segment, Grid, Button, ButtonGroup } from "semantic-ui-react";
 import { errorsState, gameWordState, statusState, styleState } from "../recoil/atoms";
 import { STATUSES } from "../constants";
+import Example from "./Example";
+import Image from "./Image";
 
 const Game = () => {
   const style = useRecoilValue(styleState);
   const [errors, setErrors] = useRecoilState(errorsState);
   const [status, setStatus] = useRecoilState(statusState);
   const [letter, setLetter] = useState();
+  const [isImageVisible, setIsImageVisible] = useState(false);
   const [word, setWord] = useState("");
   const [definitions, setDefinitions] = useState([]);
+  const [isDefVisible, setIsDefVisible] = useState(false);
+  const [isExampleVisible, setIsExampleVisible] = useState(false);
   const setGameWord = useSetRecoilState(gameWordState);
+
+  const showImage = () => {
+    setIsImageVisible(true);
+  };
+
+  const showDef = () => {
+    setIsDefVisible(true);
+  };
+
+  const showExample = () => {
+    setIsExampleVisible(true);
+  };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const gameStart = useCallback(() => {
@@ -72,9 +89,18 @@ const Game = () => {
             <Keyboard word={word} letterPressed={setLetter} />
           </Grid.Column>
         </Grid.Row>
+        <ButtonGroup fluid>
+          {!isDefVisible && <Button onClick={() => showDef()}>Show Definition</Button>}
+          {!isExampleVisible && <Button onClick={() => showExample()}>Show Example</Button>}
+          {!isImageVisible && <Button onClick={() => showImage()}>Show Image</Button>}
+        </ButtonGroup>
         <Grid.Row>
           <Grid.Column>
-            <Def definitions={definitions} />
+            <Grid columns="3">
+              {isDefVisible && <Def definitions={definitions} />}
+              {isExampleVisible && <Example definitions={definitions} />}
+              {isImageVisible && <Image word={word} definitions={definitions} />}
+            </Grid>
           </Grid.Column>
         </Grid.Row>
       </Grid>
