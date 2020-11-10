@@ -18,11 +18,11 @@ const Game = () => {
   const [errors, setErrors] = useRecoilState(errorsState);
   const [status, setStatus] = useRecoilState(statusState);
   const [letter, setLetter] = useState();
-  const [isImageVisible, setIsImageVisible] = useState(false);
   const [word, setWord] = useState("");
   const [definitions, setDefinitions] = useState([]);
   const [isDefVisible, setIsDefVisible] = useState(false);
   const [isExampleVisible, setIsExampleVisible] = useState(false);
+  const [isImageVisible, setIsImageVisible] = useState(false);
   const setGameWord = useSetRecoilState(gameWordState);
 
   const showImage = () => {
@@ -44,6 +44,9 @@ const Game = () => {
     setDefinitions([]);
     setStatus("");
     setErrors(0);
+    setIsImageVisible(false);
+    setIsDefVisible(false);
+    setIsExampleVisible(false);
     setWord(randomWord);
     setGameWord(convertStrFill(randomWord, "_"));
     randomDefinitions.then(({ definitions }) => {
@@ -56,12 +59,6 @@ const Game = () => {
     gameStart();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  // TODO: refactor
-  // TODO: do better logic!!!
-  // TODO: think about styling
-  // TODO: think about testing
-  // TODO: think about animations and draw the parts of the hangman body
-  // TODO: add i18n - English, Bulgarian - choose language
 
   useEffect(() => {
     if (status === STATUSES.RESTART) {

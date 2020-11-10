@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { Button, Modal, Segment, Header } from "semantic-ui-react";
+import { Button, Modal, Header } from "semantic-ui-react";
 import Lottie from "react-lottie";
 import { STATUSES, maxErrors } from "../constants";
-import { statusState, errorsState, gameWordState, styleState } from "../recoil/atoms";
+import { statusState, errorsState, gameWordState } from "../recoil/atoms";
 import win from "../lotties/win.json";
 import lose from "../lotties/lose.json";
 
 const Status = ({ letter, word }) => {
-  const [gameWord, setGameWord] = useRecoilState(gameWordState);
+  const gameWord = useRecoilValue(gameWordState);
   const [status, setStatus] = useRecoilState(statusState);
   const errors = useRecoilValue(errorsState);
-  const style = useRecoilValue(styleState);
   const [, closeModal] = useState(false);
 
   useEffect(() => {
@@ -22,7 +21,6 @@ const Status = ({ letter, word }) => {
   useEffect(() => {
     if (errors === maxErrors) {
       setStatus(STATUSES.LOSE);
-      setGameWord(word.toUpperCase());
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errors]);
@@ -50,11 +48,10 @@ const Status = ({ letter, word }) => {
       {status !== STATUSES.RESTART && <Modal.Header>{status}</Modal.Header>}
       <Modal.Content>
         <Modal.Description>
-          Word was: <strong>{word.toUpperCase()}</strong>
+          The word was: <strong>{word.toUpperCase()}</strong>
           {status === STATUSES.WIN && <Lottie options={winOptions} height={300} width={300} />}
           {status === STATUSES.LOSE && <Lottie options={loseOptions} height={300} width={300} />}
           <Header as="h3"></Header>
-          <Header as="h3">Your score is: 0</Header>
         </Modal.Description>
       </Modal.Content>
       <Modal.Actions>
